@@ -1,0 +1,24 @@
+---
+import "../styles/global.css";
+import Layout from "../layouts/Layout.astro";
+
+const pageTitle = "Les nouvelles de l'ASL";
+let allNews = Object.values(import.meta.glob("./news/*.md", { eager: true }));
+allNews.sort((a, b) => {
+  return new Date(b.frontmatter.pubDate) - new Date(a.frontmatter.pubDate);
+});
+---
+
+<Layout pageTitle={pageTitle}>
+  <h1>{pageTitle}</h1>
+
+  <ul>
+    {
+      allNews.map((news: any) => (
+        <li>
+          <a href={news.url}>{news.frontmatter.title}</a>
+        </li>
+      ))
+    }
+  </ul>
+</Layout>
